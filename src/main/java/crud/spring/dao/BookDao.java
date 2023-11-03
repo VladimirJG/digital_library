@@ -26,6 +26,11 @@ private JdbcTemplate jdbcTemplate;
                 .stream().findAny();
     }
 
+    public Optional<Book> showBook(String bName) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE book_name=?", new Object[]{bName}, new BeanPropertyRowMapper<>(Book.class))
+                .stream().findAny();
+    }
+
     public void saveBook(Book book) {
         jdbcTemplate.update("INSERT INTO Book(book_name, author, year_of_production) VALUES (?,?,?)",
                 book.getName(),book.getAuthor(),book.getYearOfIssue());
