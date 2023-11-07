@@ -2,7 +2,6 @@ package crud.spring.controllers;
 
 import crud.spring.dao.BookDao;
 import crud.spring.models.Book;
-import crud.spring.util.BookValidator;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/books")
 public class BookController {
     private final BookDao bookDao;
-    private final BookValidator bookValidator;
 
-    public BookController(BookDao bookDao, BookValidator bookValidator) {
+
+    public BookController(BookDao bookDao) {
         this.bookDao = bookDao;
-        this.bookValidator = bookValidator;
     }
 
     @GetMapping
@@ -39,7 +37,6 @@ public class BookController {
 
     @PostMapping
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
-        bookValidator.validate(book, bindingResult);
         if (bindingResult.hasErrors()) {
             return "books/newR";
         }
@@ -56,7 +53,6 @@ public class BookController {
     @PatchMapping("/{id}")
     public String updateBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
                              @PathVariable("id") int id) {
-        bookValidator.validate(book, bindingResult);
         if (bindingResult.hasErrors()) {
             return "books/editR";
         }
