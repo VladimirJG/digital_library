@@ -8,9 +8,9 @@ public class PersonReader {
     private int readerId;
     @NotEmpty(message = "Имя не может быть пустым")
     @Size(min = 2, max = 100, message = "Размер имени должен находиться в диапазоне от 2 до 100 символов(включая пробелы)")
-    @Pattern(regexp = "[А-Я]\\w+ [А-Я]\\w+ ", message = "Формат:Фамилия Имя")
+  //  @Pattern(regexp = "[А-Я]\\w+[А-Я]\\w+", message = "Формат:Фамилия Имя")
     private String name;
-    @Pattern(regexp = "\\d{4}", message = "Размер даты = 4 символам")
+    /*@Pattern(regexp = "\\d{4}", message = "Размер даты = 4 символам")*/
     private int yearOfBirth;
 
     public PersonReader() {

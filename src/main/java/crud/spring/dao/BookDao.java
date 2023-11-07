@@ -18,12 +18,12 @@ private JdbcTemplate jdbcTemplate;
     }
 
     public List<Book> showAllBooks() {
-        return jdbcTemplate.query("SELECT * FROM book", new BeanPropertyRowMapper<>(Book.class));
+        return jdbcTemplate.query("SELECT * FROM Book", new BeanPropertyRowMapper<>(Book.class));
     }
 
-    public Optional<Book> showBook(int id) {
+    public Book showBook(int id) {
         return jdbcTemplate.query("SELECT * FROM Book WHERE book_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
-                .stream().findAny();
+                .stream().findAny().orElse(null);
     }
 
     public Optional<Book> showBook(String bName) {
@@ -37,11 +37,11 @@ private JdbcTemplate jdbcTemplate;
     }
 
     public void updateBook(Book upBook, int id) {
-        jdbcTemplate.update("UPDATE book SET book_name=?, author=?,year_of_production=? WHERE book_id=?",
+        jdbcTemplate.update("UPDATE Book SET book_name=?, author=?,year_of_production=? WHERE book_id=?",
                 upBook.getName(),upBook.getAuthor(),upBook.getYearOfIssue(), id);
     }
 
     public void deleteBook(int id) {
-        jdbcTemplate.update("DELETE FROM book WHERE book_id=?", id);
+        jdbcTemplate.update("DELETE FROM Book WHERE book_id=?", id);
     }
 }
