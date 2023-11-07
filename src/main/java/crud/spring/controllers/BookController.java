@@ -39,7 +39,7 @@ public class BookController {
         if (bookOwner.isPresent()) {
             model.addAttribute("owner", bookOwner.get());
         } else {
-            model.addAttribute("reader", personReaderDao.showAllReaders());
+            model.addAttribute("readers", personReaderDao.showAllReaders());
         }
         return "books/book";
     }

@@ -1,23 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8"/>
     <title>Книга</title>
 </head>
 <body>
-<p th:text="${book.getName()}">Value</p>
-<p th:text="${book.getAuthor()}">Value</p>
-<p th:text="${book.getYearOfIssue()}">Value</p>
-<p th:text="${book.getBookId()}">Value</p>
+<p th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYearOfIssue()}">Value</p>
+
+<div th:if="${owner}">
+    <span>Книга в настоящий момент у:</span><span th:text="${owner.getName}">Person Name</span>
+    <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getBookId()})}">
+        <input type="submit" value="Освободить книгу">
+    </form>
+</div>
+
+<div th:if="${readers}">
+    <span>Кому назначить данную книгу?</span>
+    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getBookId()})}">
+        <label for="reader">Выберите человека</label>
+        <select th:object="${reader}" th:filed="*{getReaderId()}" id="reader">
+        <option th:each="reader : ${readers}" th:value="${reader.getReaderId()}" th:text="${reader.getName()}">
+
+        </option>
+        </select>
+        <input type="submit" value="Назначить книгу">
+    </form>
+</div>
 
 
-
-<form th:method="EDIT" th:action="@{/books/{id}(id=${book.getBookId()})}">
-    <input type="submit" value="Edit">
+<form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getBookId()})}">
+    <input type="submit" value="Редактировать">
 </form>
 
 <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getBookId()})}">
-    <input type="submit" value="Delete">
+    <input type="submit" value="Удалить">
 </form>
 
 </body>
