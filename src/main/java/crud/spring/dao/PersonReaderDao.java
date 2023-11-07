@@ -30,12 +30,12 @@ public class PersonReaderDao {
     }
 
     public void updateReader(PersonReader upReader, int id) {
-        jdbcTemplate.update("UPDATE Person_Reader SET name=?, year_of_birthday=? WHERE id=?", upReader.getName(),
+        jdbcTemplate.update("UPDATE Person_Reader SET name=?, year_of_birthday=? WHERE reader_id=?", upReader.getName(),
                 upReader.getYearOfBirth(), id);
     }
 
     public void deleteReader(int id) {
-        jdbcTemplate.update("DELETE FROM Person_reader WHERE id=?", id);
+        jdbcTemplate.update("DELETE FROM Person_reader WHERE reader_id=?", id);
     }
 
 }

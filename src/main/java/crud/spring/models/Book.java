@@ -11,7 +11,6 @@ public class Book {
     private String name;
     @NotEmpty(message = "Имя не может быть пустым")
     @Size(min = 2, max = 100, message = "Размер имени должен находиться в диапазоне от 2 до 100 символов(включая пробелы)")
-    @Pattern(regexp = "[А-Я]\\w+ [А-Я]\\w+ [А-Я]\\w+", message = "Имя должно соответствовать формату:Имя Отчество Фамилия")
     private String author;
     @Pattern(regexp = "\\d{4}", message = "Размер даты = 4 символам")
     private int yearOfIssue;
@@ -19,8 +18,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(int bookId, String name, String author, int yearOfIssue) {
-        this.bookId = bookId;
+    public Book( String name, String author, int yearOfIssue) {
         this.name = name;
         this.author = author;
         this.yearOfIssue = yearOfIssue;
