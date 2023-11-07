@@ -1,21 +1,27 @@
 package crud.spring.controllers;
 
 import crud.spring.dao.BookDao;
+import crud.spring.dao.PersonReaderDao;
 import crud.spring.models.Book;
+import crud.spring.models.PersonReader;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/books")
 public class BookController {
     private final BookDao bookDao;
+    private final PersonReaderDao personReaderDao;
 
 
-    public BookController(BookDao bookDao) {
+    public BookController(BookDao bookDao, PersonReaderDao personReaderDao) {
         this.bookDao = bookDao;
+        this.personReaderDao = personReaderDao;
     }
 
     @GetMapping
@@ -25,8 +31,16 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String showBook(@PathVariable("id") int id, Model model) {
+    public String showBook(@PathVariable("id") int id, Model model,
+                           @ModelAttribute("reader") PersonReader reader) {
         model.addAttribute("book", bookDao.showBook(id));
+        Optional<PersonReader> bookOwner = bookDao.getBookOwner(id);
+
+        if (bookOwner.isPresent()) {
+            model.addAttribute("owner", bookOwner.get());
+        } else {
+            model.addAttribute("reader", personReaderDao.showAllReaders());
+        }
         return "books/book";
     }
 
@@ -64,5 +78,17 @@ public class BookController {
     public String deleteBook(@PathVariable("id") int id) {
         bookDao.deleteBook(id);
         return "redirect:/books";
+    }
+
+    @PatchMapping("/{id}/release")
+    public String release(@PathVariable("id") int id) {
+        bookDao.release(id);
+        return "redirect:/books/" + id;
+    }
+
+    @PatchMapping("/{id}/assign")
+    public String assign(@PathVariable("id") int id, @ModelAttribute("reader") PersonReader selectedReader) {
+        bookDao.assign(id, selectedReader);
+        return "redirect:/books/" + id;
     }
 }

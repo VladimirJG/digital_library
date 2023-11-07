@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Component
 public class PersonReaderDao {
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public PersonReaderDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
