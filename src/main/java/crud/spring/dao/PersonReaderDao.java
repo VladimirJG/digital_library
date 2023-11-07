@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonReaderDao {
@@ -22,6 +23,10 @@ public class PersonReaderDao {
     public PersonReader showReader(int readerId) {
         return jdbcTemplate.query("SELECT * FROM Person_Reader WHERE reader_id=?", new Object[]{readerId}, new BeanPropertyRowMapper<>(PersonReader.class))
                 .stream().findAny().orElse(null);
+    }
+    public Optional<PersonReader> getReaderByName(String name) {
+        return jdbcTemplate.query("SELECT * FROM Person_Reader WHERE name=?", new Object[]{name}, new BeanPropertyRowMapper<>(PersonReader.class))
+                .stream().findAny();
     }
 
     public void saveReader(PersonReader reader) {
