@@ -2,18 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8"/>
     <title>Читатель</title>
 </head>
 <body>
-<p th:text="${reader.getName()}">Value</p>
-<p th:text="${reader.getYearOfBirth()}">Value</p>
+<p th:text="${reader.getName() + ', ' + reader.getYearOfBirth()}">Value</p>
+<div th:if="${books.isEmpty()}">
+    <p>Читатель не взял еще не одной книги</p>
+    <hr/>
+</div>
+<div th:if="${!books.isEmpty()}">
+    <hr/>
+    <b>Книги</b>
+    <br/>
+    <table th:each="book:${books}">
+        <tr th:text="${book.getName()+', '+ book.getAuthor()+', ' + book.getYearOfIssue()}">book</tr>
+    </table>
+    <hr/>
+</div>
 
-<a th:href="@{/readers/{id}/edit(id=${reader.getReaderId()})}">Edit</a>
-
-<
+<!--<a th:href="@{/readers/{id}/edit(id=${reader.getReaderId()})}">Edit</a>-->
+<form th:method="GET" th:action="@{/readers/{id}/edit(id=${reader.getReaderId()})}">
+    <input type="submit" value="Редактировать">
+</form>
 
 <form th:method="DELETE" th:action="@{/readers/{id}(id=${reader.getReaderId()})}">
-    <input type="submit" value="Delete">
+    <input type="submit" value="Удалить">
 </form>
 
 </body>
