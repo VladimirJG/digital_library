@@ -1,5 +1,6 @@
 package crud.spring.dao;
 
+import crud.spring.models.Book;
 import crud.spring.models.PersonReader;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,6 +25,7 @@ public class PersonReaderDao {
         return jdbcTemplate.query("SELECT * FROM Person_Reader WHERE reader_id=?", new Object[]{readerId}, new BeanPropertyRowMapper<>(PersonReader.class))
                 .stream().findAny().orElse(null);
     }
+
     public Optional<PersonReader> getReaderByName(String name) {
         return jdbcTemplate.query("SELECT * FROM Person_Reader WHERE name=?", new Object[]{name}, new BeanPropertyRowMapper<>(PersonReader.class))
                 .stream().findAny();
@@ -43,4 +45,8 @@ public class PersonReaderDao {
         jdbcTemplate.update("DELETE FROM Person_reader WHERE reader_id=?", id);
     }
 
+    public List<Book> getBooksByReaderId(int id) {
+        return jdbcTemplate.query("SELECT * FROM book WHERE reader_id=?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Book.class));
+    }
 }
