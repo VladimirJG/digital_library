@@ -42,17 +42,17 @@ public class BookDao {
     }
 
     public Optional<PersonReader> getBookOwner(int id) {
-        return jdbcTemplate.query("SELECT Person_Reader.* FROM Book JOIN person_reader ON book.reader_id = person_reader.reader_id WHERE book.book_id=?",
+        return jdbcTemplate.query("SELECT Person_Reader.* FROM Book JOIN person_reader ON book.book_reader_id = person_reader.reader_id WHERE book.book_id=?",
                 new Object[]{id},
                 new BeanPropertyRowMapper<>(PersonReader.class)).stream().findAny();
     }
 
     public void release(int id) {
-        jdbcTemplate.update("UPDATE book SET reader_id=NULL WHERE book_id=?", id); //id= bookid
+        jdbcTemplate.update("UPDATE book SET book_reader_id=NULL WHERE book_id=?", id); //id= bookid
     }
 
     public void assign (int id, PersonReader selectedReader){
-        jdbcTemplate.update("UPDATE book SET reader_id=? WHERE book_id=?",selectedReader.getReaderId(),id); //id= bookid
+        jdbcTemplate.update("UPDATE book SET book_reader_id=? WHERE book_id=?",selectedReader.getReaderId(),id); //id= bookid
     }
 }
 
